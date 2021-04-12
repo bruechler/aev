@@ -1,5 +1,5 @@
 const Ajv = require("ajv");
-const ajv = new Ajv({ allErrors: true, coerceTypes: true });
+const ajv = new Ajv({ allErrors: true, coerceTypes: true, allowUnionTypes: true });
 
 
 function RequestInvalidError (invalidProps) {
