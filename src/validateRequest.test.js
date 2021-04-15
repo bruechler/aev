@@ -15,7 +15,12 @@ const schema = {
                         "type": "string",
                         "minLength": 1,
                         "maxLength": 255
+
                     },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    }
                 },
             },
             "query": {
@@ -113,10 +118,27 @@ describe("validateRequest", () => {
                     message: expect.any(String),
                 }),
             ])
-            );
-        });
+        );
+    });
 
-        it("calls next() when request is valid", () => {
+    it("validates formats", () => {
+        const val = require("./validateRequest")(schema);
+        const req = {
+            method: "POST",
+            originalUrl: "/test",
+            body: {
+                name: "valid value",
+                email: "invalidmail",
+            },
+        };
+
+        let result;
+
+        val(req, null, error => result = error);
+        expect(result.invalidProps[0].format).toBe("email");
+    });
+
+    it("calls next() when request is valid", () => {
         const val = require("./validateRequest")(schema);
         const req = {
             method: "POST",

@@ -1,6 +1,7 @@
 const Ajv = require("ajv");
+const addFormats = require("ajv-formats");
 const ajv = new Ajv({ allErrors: true, coerceTypes: true, allowUnionTypes: true });
-
+addFormats(ajv);
 
 function RequestInvalidError (invalidProps) {
     this.name = "RequestInvalidError";
